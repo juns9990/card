@@ -7,7 +7,50 @@
 <meta name="theme-color" content="#121417">
 <meta property="og:title" content="김기준 · Vela">
 <meta property="og:description" content="VELA MES · 3D Print Products — Founder · Developer">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vela">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+/* ── PWA: 서비스워커 등록 ── */
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+
+/* ── PWA: 설치 버튼 (Android/Chrome) + iOS 안내 ── */
+(function(){
+  var wrap = document.getElementById('installWrap');
+  var btn = document.getElementById('installBtn');
+  var deferred = null;
+
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    deferred = e;
+    wrap.style.display = 'flex';
+  });
+  btn.addEventListener('click', function(){
+    if (deferred) {
+      deferred.prompt();
+      deferred.userChoice.then(function(){ deferred = null; wrap.style.display = 'none'; });
+    } else {
+      toast('브라우저 메뉴에서 "홈 화면에 추가"를 눌러주세요');
+    }
+  });
+
+  /* iOS Safari: beforeinstallprompt 미지원 → 안내 배너 표시 */
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (isIOS && !standalone) {
+    wrap.style.display = 'flex';
+    btn.querySelector('.v').textContent = '공유 버튼 → "홈 화면에 추가"로 설치';
+  }
+  if (standalone) wrap.style.display = 'none';
+})();
+</script>
 <style>
   :root{
     --bg:#0B0D10;
@@ -241,6 +284,12 @@
     <button class="btn" onclick="shareCard()">
       <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/></svg>
       명함 공유
+    </button>
+  </div>
+
+  <div class="rows" id="installWrap" style="padding-bottom:0;display:none">
+    <button class="row" id="installBtn" style="border:1px solid rgba(92,232,201,.35);background:rgba(92,232,201,.06);cursor:pointer;width:100%;font-family:inherit">
+      <span class="k">APP</span><span class="v">홈 화면에 앱으로 설치하기</span>
     </button>
   </div>
 
