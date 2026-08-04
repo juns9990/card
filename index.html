@@ -250,7 +250,7 @@ playIntroSeq(SEQ1, SEQ2);
   }
   ln.addEventListener('click', function(e){
     e.preventDefault();
-    var data = { title:'명함 | VELA SYSTEM', text:'명함 | VELA SYSTEM\n김기준 · 개발·운영 총괄\n010-7195-0069', url:CARD_URL };
+    var data = { title:'명함 | VELA SYSTEM', url:CARD_URL };
     if(navigator.share){ navigator.share(data).catch(function(){}); }
     else if(navigator.clipboard){ navigator.clipboard.writeText(CARD_URL).then(function(){ toast('명함 링크가 복사됐어요'); }); }
     else { toast('주소창의 링크를 복사해 주세요'); }
