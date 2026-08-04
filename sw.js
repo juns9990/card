@@ -1,5 +1,5 @@
 /* VELA 디지털 명함 Service Worker */
-const CACHE = 'vela-card-v1';
+const CACHE = 'vela-card-v2';
 const ASSETS = [
   './',
   './index.html',
