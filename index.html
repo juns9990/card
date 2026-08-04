@@ -5,8 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>김기준 · Vela — 디지털 명함</title>
 <meta name="theme-color" content="#0B0D10">
-<meta property="og:title" content="김기준 · Vela">
-<meta property="og:description" content="VELA SYSTEM · MES · 3D Print — Founder · Developer">
+<meta property="og:title" content="명함 | VELA SYSTEM — 김기준">
+<meta property="og:description" content="개발·운영 총괄 · 010-7195-0069 · juns@kakao.com">
+<meta property="og:image" content="https://juns9990.github.io/card/icon-512.png">
+<meta property="og:url" content="https://juns9990.github.io/card/">
+<meta property="og:type" content="website">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -247,7 +250,7 @@ playIntroSeq(SEQ1, SEQ2);
   }
   ln.addEventListener('click', function(e){
     e.preventDefault();
-    var data = { title:'김기준 · Vela', text:'VELA SYSTEM — 김기준 (Founder · Developer)', url:CARD_URL };
+    var data = { title:'명함 | VELA SYSTEM', text:'명함 | VELA SYSTEM\n김기준 · 개발·운영 총괄\n010-7195-0069', url:CARD_URL };
     if(navigator.share){ navigator.share(data).catch(function(){}); }
     else if(navigator.clipboard){ navigator.clipboard.writeText(CARD_URL).then(function(){ toast('명함 링크가 복사됐어요'); }); }
     else { toast('주소창의 링크를 복사해 주세요'); }
