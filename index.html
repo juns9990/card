@@ -144,6 +144,13 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
     transition:opacity .4s,transform .4s;box-shadow:0 10px 30px rgba(0,0,0,.5);
   }
   #installPill.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #toast{
+    position:fixed;left:50%;bottom:80px;transform:translateX(-50%) translateY(16px);
+    background:#1E232B;border:1px solid rgba(92,232,201,.4);color:var(--txt);
+    padding:10px 18px;border-radius:99px;font-size:13px;opacity:0;z-index:45;
+    transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   #installPill i{font-style:normal;color:var(--mint)}
 </style>
 </head>
@@ -181,6 +188,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
             <a class="ln" href="tel:010-7195-0069"><span class="k">CALL</span><span class="v">010-7195-0069</span></a>
             <a class="ln" href="sms:010-7195-0069"><span class="k">SMS</span><span class="v">문자 보내기</span></a>
             <a class="ln" href="mailto:juns@kakao.com"><span class="k">MAIL</span><span class="v">juns@kakao.com</span></a>
+            <a class="ln" href="#" id="shareLn"><span class="k">SHARE</span><span class="v">명함 공유하기</span></a>
           </div>
         </div>
         <div class="gloss"></div>
@@ -265,6 +273,26 @@ playIntroSeq(SEQ1, SEQ2);
   el.addEventListener('pointercancel', rel);
 })();
 </script>
+<div id="toast"></div>
 <button id="installPill"><i>⊕</i>홈 화면에 앱으로 설치</button>
+<script>
+/* ── 공유 ── */
+(function(){
+  var ln = document.getElementById('shareLn');
+  var toastEl = document.getElementById('toast');
+  var CARD_URL = 'https://juns9990.github.io/card/';
+  function toast(msg){
+    toastEl.textContent = msg; toastEl.classList.add('show');
+    clearTimeout(toastEl._h); toastEl._h = setTimeout(function(){ toastEl.classList.remove('show'); }, 2200);
+  }
+  ln.addEventListener('click', function(e){
+    e.preventDefault();
+    var data = { title:'김기준 · Vela', text:'VELA SYSTEM — 김기준 (Founder · Developer)', url:CARD_URL };
+    if(navigator.share){ navigator.share(data).catch(function(){}); }
+    else if(navigator.clipboard){ navigator.clipboard.writeText(CARD_URL).then(function(){ toast('명함 링크가 복사됐어요'); }); }
+    else { toast('주소창의 링크를 복사해 주세요'); }
+  });
+})();
+</script>
 </body>
 </html>
